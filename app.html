@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FocusForge</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+</head>
+<body>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="logo">
+      <i class="fa-solid fa-bolt"></i>
+      <span>FocusForge</span>
+    </div>
+    <nav>
+      <button class="nav-btn active" data-tab="dashboard">
+        <i class="fa-solid fa-house"></i> Dashboard
+      </button>
+      <button class="nav-btn" data-tab="tasks">
+        <i class="fa-solid fa-list-check"></i> Tasks
+      </button>
+      <button class="nav-btn" data-tab="habits">
+        <i class="fa-solid fa-fire"></i> Habits
+      </button>
+      <button class="nav-btn" data-tab="timer">
+        <i class="fa-solid fa-clock"></i> Focus Timer
+      </button>
+    </nav>
+    <div class="sidebar-footer">
+      <p>FocusForge v1.0</p>
+      <p>© 2026</p>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="main">
+
+    <!-- DASHBOARD TAB -->
+    <section class="tab active" id="tab-dashboard">
+      <div class="page-header">
+        <h1>Good day! 👋</h1>
+        <p class="subtitle">Here's your productivity overview</p>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon blue">
+            <i class="fa-solid fa-list-check"></i>
+          </div>
+          <div class="stat-info">
+            <span class="stat-number" id="stat-tasks">0</span>
+            <span class="stat-label">Tasks Done Today</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon orange">
+            <i class="fa-solid fa-fire"></i>
+          </div>
+          <div class="stat-info">
+            <span class="stat-number" id="stat-habits">0</span>
+            <span class="stat-label">Habits Completed</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon green">
+            <i class="fa-solid fa-clock"></i>
+          </div>
+          <div class="stat-info">
+            <span class="stat-number" id="stat-focus">0m</span>
+            <span class="stat-label">Focus Time Today</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon purple">
+            <i class="fa-solid fa-trophy"></i>
+          </div>
+          <div class="stat-info">
+            <span class="stat-number" id="stat-streak">0</span>
+            <span class="stat-label">Day Streak</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="dashboard-grid">
+        <!-- Today's Tasks Preview -->
+        <div class="card">
+          <div class="card-header">
+            <h2><i class="fa-solid fa-list-check"></i> Today's Tasks</h2>
+            <button class="btn-small" onclick="switchTab('tasks')">View All</button>
+          </div>
+          <div id="dashboard-tasks">
+            <p class="empty-state">No tasks yet. Add some!</p>
+          </div>
+        </div>
+
+        <!-- Today's Habits Preview -->
+        <div class="card">
+          <div class="card-header">
+            <h2><i class="fa-solid fa-fire"></i> Today's Habits</h2>
+            <button class="btn-small" onclick="switchTab('habits')">View All</button>
+          </div>
+          <div id="dashboard-habits">
+            <p class="empty-state">No habits yet. Add some!</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TASKS TAB -->
+    <section class="tab" id="tab-tasks">
+      <div class="page-header">
+        <h1><i class="fa-solid fa-list-check"></i> Tasks</h1>
+        <p class="subtitle">Manage your to-do list</p>
+      </div>
+
+      <div class="card">
+        <div class="input-row">
+          <input type="text" id="task-input" placeholder="Add a new task..." />
+          <select id="task-priority">
+            <option value="low">🟢 Low</option>
+            <option value="medium" selected>🟡 Medium</option>
+            <option value="high">🔴 High</option>
+          </select>
+          <button class="btn-primary" onclick="addTask()">
+            <i class="fa-solid fa-plus"></i> Add
+          </button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="filter-row">
+          <button class="filter-btn active" data-filter="all">All</button>
+          <button class="filter-btn" data-filter="active">Active</button>
+          <button class="filter-btn" data-filter="completed">Completed</button>
+        </div>
+        <div id="task-list">
+          <p class="empty-state">No tasks yet. Add one above!</p>
+        </div>
+        <div class="task-footer">
+          <span id="task-count">0 tasks remaining</span>
+          <button class="btn-danger-small" onclick="clearCompletedTasks()">
+            Clear Completed
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- HABITS TAB -->
+    <section class="tab" id="tab-habits">
+      <div class="page-header">
+        <h1><i class="fa-solid fa-fire"></i> Habits</h1>
+        <p class="subtitle">Build your daily streaks</p>
+      </div>
+
+      <div class="card">
+        <div class="input-row">
+          <input type="text" id="habit-input" placeholder="Add a new habit..." />
+          <select id="habit-icon">
+            <option value="💪">💪 Exercise</option>
+            <option value="📚">📚 Reading</option>
+            <option value="💧">💧 Water</option>
+            <option value="🧘">🧘 Meditate</option>
+            <option value="🛌">🛌 Sleep Early</option>
+            <option value="✍️">✍️ Journal</option>
+            <option value="🥗">🥗 Eat Healthy</option>
+            <option value="⭐">⭐ Custom</option>
+          </select>
+          <button class="btn-primary" onclick="addHabit()">
+            <i class="fa-solid fa-plus"></i> Add
+          </button>
+        </div>
+      </div>
+
+      <div id="habit-list" class="habit-grid">
+        <p class="empty-state">No habits yet. Add one above!</p>
+      </div>
+    </section>
+
+    <!-- TIMER TAB -->
+    <section class="tab" id="tab-timer">
+      <div class="page-header">
+        <h1><i class="fa-solid fa-clock"></i> Focus Timer</h1>
+        <p class="subtitle">Stay in the zone with Pomodoro</p>
+      </div>
+
+      <div class="timer-layout">
+        <div class="card timer-card">
+          <!-- Mode selector -->
+          <div class="timer-modes">
+            <button class="mode-btn active" data-mode="pomodoro">
+              🍅 Pomodoro
+            </button>
+            <button class="mode-btn" data-mode="short">
+              ☕ Short Break
+            </button>
+            <button class="mode-btn" data-mode="long">
+              🛋️ Long Break
+            </button>
+          </div>
+
+          <!-- Timer display -->
+          <div class="timer-display">
+            <svg class="timer-ring" viewBox="0 0 200 200">
+              <circle class="ring-bg" cx="100" cy="100" r="90"/>
+              <circle class="ring-progress" id="ring-progress"
+                cx="100" cy="100" r="90"
+                stroke-dasharray="565"
+                stroke-dashoffset="0"/>
+            </svg>
+            <div class="timer-time" id="timer-display">25:00</div>
+          </div>
+
+          <!-- Controls -->
+          <div class="timer-controls">
+            <button class="btn-timer" onclick="resetTimer()">
+              <i class="fa-solid fa-rotate-left"></i>
+            </button>
+            <button class="btn-timer-main" id="timer-btn" onclick="toggleTimer()">
+              <i class="fa-solid fa-play" id="timer-icon"></i>
+            </button>
+            <button class="btn-timer" onclick="skipTimer()">
+              <i class="fa-solid fa-forward-step"></i>
+            </button>
+          </div>
+
+          <!-- Session counter -->
+          <div class="session-info">
+            <span>Session <span id="session-count">1</span> of 4</span>
+            <div class="session-dots" id="session-dots">
+              <div class="dot active"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Timer settings & log -->
+        <div class="timer-side">
+          <div class="card">
+            <h2>⚙️ Settings</h2>
+            <div class="setting-row">
+              <label>Pomodoro (mins)</label>
+              <input type="number" id="set-pomodoro" value="25" min="1" max="60"/>
+            </div>
+            <div class="setting-row">
+              <label>Short Break (mins)</label>
+              <input type="number" id="set-short" value="5" min="1" max="30"/>
+            </div>
+            <div class="setting-row">
+              <label>Long Break (mins)</label>
+              <input type="number" id="set-long" value="15" min="1" max="60"/>
+            </div>
+            <button class="btn-primary" style="width:100%;margin-top:10px"
+              onclick="applySettings()">
+              Apply Settings
+            </button>
+          </div>
+
+          <div class="card">
+            <h2>📋 Today's Sessions</h2>
+            <div id="session-log">
+              <p class="empty-state">No sessions yet!</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="js/app.js"></script>
+  <script src="js/tasks.js"></script>
+  <script src="js/habits.js"></script>
+  <script src="js/timer.js"></script>
+</body>
+</html>
