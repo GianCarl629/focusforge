@@ -1,0 +1,1324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FocusForge - Productivity Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <style>
+    /* ============================================================
+       RESET & BASE
+    ============================================================ */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #0a0a0f;
+      --bg2: #12121a;
+      --bg3: #1a1a26;
+      --border: #2a2a3a;
+      --text: #f0f0f8;
+      --text2: #8888aa;
+      --primary: #6c63ff;
+      --primary-dark: #5a52e0;
+      --green: #22c55e;
+      --orange: #f97316;
+      --yellow: #eab308;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* ============================================================
+       NAVBAR
+    ============================================================ */
+
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: rgba(10, 10, 15, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-logo {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      font-size: 14px;
+      color: var(--text2);
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+    }
+
+    .nav-cta {
+      background: var(--primary);
+      color: white !important;
+      padding: 10px 22px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 14px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-cta:hover {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+    }
+
+    /* ============================================================
+       HERO
+    ============================================================ */
+
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 24px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Gradient background blobs */
+    .hero::before {
+      content: '';
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(108,99,255,0.15) 0%, transparent 70%);
+      top: 10%;
+      left: 50%;
+      transform: translateX(-50%);
+      pointer-events: none;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(34,197,94,0.08) 0%, transparent 70%);
+      bottom: 10%;
+      right: 10%;
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(108,99,255,0.1);
+      border: 1px solid rgba(108,99,255,0.3);
+      border-radius: 100px;
+      padding: 6px 16px;
+      font-size: 13px;
+      color: var(--primary);
+      font-weight: 600;
+      margin-bottom: 24px;
+    }
+
+    .hero h1 {
+      font-size: clamp(42px, 7vw, 80px);
+      font-weight: 900;
+      line-height: 1.1;
+      margin-bottom: 24px;
+      max-width: 800px;
+    }
+
+    .hero h1 span {
+      background: linear-gradient(135deg, #6c63ff, #a78bfa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      font-size: 18px;
+      color: var(--text2);
+      max-width: 560px;
+      line-height: 1.7;
+      margin-bottom: 40px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 60px;
+    }
+
+    .btn-hero {
+      background: var(--primary);
+      color: white;
+      padding: 16px 36px;
+      border-radius: 14px;
+      font-size: 17px;
+      font-weight: 700;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 0 40px rgba(108,99,255,0.3);
+    }
+
+    .btn-hero:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 0 60px rgba(108,99,255,0.4);
+    }
+
+    .btn-demo {
+      background: transparent;
+      color: var(--text);
+      padding: 16px 36px;
+      border-radius: 14px;
+      font-size: 17px;
+      font-weight: 600;
+      border: 1px solid var(--border);
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-demo:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .hero-price-note {
+      font-size: 14px;
+      color: var(--text2);
+    }
+
+    .hero-price-note strong {
+      color: var(--green);
+    }
+
+    /* App preview mockup */
+    .hero-mockup {
+      width: 100%;
+      max-width: 900px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 40px 120px rgba(0,0,0,0.6);
+      margin-top: 60px;
+    }
+
+    .mockup-bar {
+      background: var(--bg3);
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .mockup-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+
+    .mockup-dot.red    { background: #ef4444; }
+    .mockup-dot.yellow { background: #eab308; }
+    .mockup-dot.green  { background: #22c55e; }
+
+    .mockup-url {
+      flex: 1;
+      background: var(--bg);
+      border-radius: 6px;
+      padding: 4px 12px;
+      font-size: 12px;
+      color: var(--text2);
+      margin: 0 12px;
+      text-align: center;
+    }
+
+    .mockup-content {
+      display: flex;
+      height: 400px;
+    }
+
+    .mockup-sidebar {
+      width: 180px;
+      background: var(--bg3);
+      border-right: 1px solid var(--border);
+      padding: 20px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .mockup-logo {
+      color: var(--primary);
+      font-weight: 800;
+      font-size: 15px;
+      padding: 0 8px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .mockup-nav-item {
+      padding: 10px 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      color: var(--text2);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .mockup-nav-item.active {
+      background: var(--primary);
+      color: white;
+    }
+
+    .mockup-main {
+      flex: 1;
+      padding: 24px;
+      overflow: hidden;
+    }
+
+    .mockup-title {
+      font-size: 20px;
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+
+    .mockup-subtitle {
+      font-size: 12px;
+      color: var(--text2);
+      margin-bottom: 20px;
+    }
+
+    .mockup-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .mockup-stat {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .mockup-stat-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+
+    .mockup-stat-icon.blue   { background: rgba(59,130,246,0.15); color: #3b82f6; }
+    .mockup-stat-icon.orange { background: rgba(249,115,22,0.15); color: #f97316; }
+    .mockup-stat-icon.green  { background: rgba(34,197,94,0.15);  color: #22c55e; }
+    .mockup-stat-icon.purple { background: rgba(168,85,247,0.15); color: #a855f7; }
+
+    .mockup-stat-num {
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    .mockup-stat-label {
+      font-size: 10px;
+      color: var(--text2);
+    }
+
+    .mockup-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .mockup-card {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px;
+    }
+
+    .mockup-card-title {
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: var(--text);
+    }
+
+    .mockup-task {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 12px;
+      color: var(--text2);
+    }
+
+    .mockup-check {
+      width: 14px;
+      height: 14px;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    .mockup-check.done {
+      background: var(--green);
+      border-color: var(--green);
+    }
+
+    /* ============================================================
+       SOCIAL PROOF
+    ============================================================ */
+
+    .social-proof {
+      padding: 20px 24px 60px;
+      text-align: center;
+    }
+
+    .social-proof p {
+      color: var(--text2);
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+
+    .stars {
+      color: var(--yellow);
+      font-size: 20px;
+      letter-spacing: 2px;
+    }
+
+    /* ============================================================
+       FEATURES
+    ============================================================ */
+
+    .features {
+      padding: 100px 24px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      text-align: center;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: clamp(28px, 4vw, 42px);
+      font-weight: 900;
+      margin-bottom: 16px;
+    }
+
+    .section-sub {
+      text-align: center;
+      color: var(--text2);
+      font-size: 16px;
+      max-width: 500px;
+      margin: 0 auto 60px;
+      line-height: 1.7;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .feature-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 32px;
+      transition: all 0.3s ease;
+    }
+
+    .feature-card:hover {
+      border-color: var(--primary);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 60px rgba(108,99,255,0.1);
+    }
+
+    .feature-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+
+    .feature-icon.purple { background: rgba(108,99,255,0.15); color: var(--primary); }
+    .feature-icon.green  { background: rgba(34,197,94,0.15);  color: var(--green); }
+    .feature-icon.orange { background: rgba(249,115,22,0.15); color: var(--orange); }
+    .feature-icon.blue   { background: rgba(59,130,246,0.15); color: #3b82f6; }
+    .feature-icon.yellow { background: rgba(234,179,8,0.15);  color: var(--yellow); }
+    .feature-icon.red    { background: rgba(239,68,68,0.15);  color: #ef4444; }
+
+    .feature-card h3 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .feature-card p {
+      font-size: 14px;
+      color: var(--text2);
+      line-height: 1.7;
+    }
+
+    /* ============================================================
+       HOW IT WORKS
+    ============================================================ */
+
+    .how-it-works {
+      padding: 100px 24px;
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .steps {
+      max-width: 800px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+    }
+
+    .step {
+      display: flex;
+      align-items: flex-start;
+      gap: 24px;
+    }
+
+    .step-number {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: white;
+      font-size: 20px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .step-content h3 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .step-content p {
+      color: var(--text2);
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    /* ============================================================
+       PRICING
+    ============================================================ */
+
+    .pricing {
+      padding: 100px 24px;
+      max-width: 600px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .pricing-card {
+      background: var(--bg2);
+      border: 2px solid var(--primary);
+      border-radius: 24px;
+      padding: 48px;
+      position: relative;
+      box-shadow: 0 0 60px rgba(108,99,255,0.15);
+    }
+
+    .pricing-badge {
+      position: absolute;
+      top: -14px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--primary);
+      color: white;
+      padding: 4px 20px;
+      border-radius: 100px;
+      font-size: 13px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .pricing-name {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--text2);
+    }
+
+    .pricing-price {
+      font-size: 72px;
+      font-weight: 900;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .pricing-price span {
+      font-size: 28px;
+      font-weight: 600;
+      color: var(--text2);
+      vertical-align: top;
+      margin-top: 16px;
+      display: inline-block;
+    }
+
+    .pricing-note {
+      color: var(--green);
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 32px;
+    }
+
+    .pricing-features {
+      list-style: none;
+      margin-bottom: 40px;
+      text-align: left;
+    }
+
+    .pricing-features li {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 15px;
+      color: var(--text);
+    }
+
+    .pricing-features li:last-child {
+      border-bottom: none;
+    }
+
+    .pricing-features li i {
+      color: var(--green);
+      font-size: 16px;
+      width: 20px;
+      text-align: center;
+    }
+
+    .btn-buy {
+      display: block;
+      background: var(--primary);
+      color: white;
+      padding: 18px;
+      border-radius: 14px;
+      font-size: 18px;
+      font-weight: 800;
+      transition: all 0.2s ease;
+      box-shadow: 0 0 40px rgba(108,99,255,0.3);
+      width: 100%;
+      text-align: center;
+    }
+
+    .btn-buy:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 0 60px rgba(108,99,255,0.4);
+    }
+
+    .pricing-guarantee {
+      margin-top: 20px;
+      font-size: 13px;
+      color: var(--text2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    /* ============================================================
+       TESTIMONIALS
+    ============================================================ */
+
+    .testimonials {
+      padding: 100px 24px;
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .testimonials-grid {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .testimonial-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 28px;
+      transition: all 0.2s ease;
+    }
+
+    .testimonial-card:hover {
+      border-color: var(--primary);
+      transform: translateY(-2px);
+    }
+
+    .testimonial-stars {
+      color: var(--yellow);
+      font-size: 14px;
+      margin-bottom: 14px;
+    }
+
+    .testimonial-text {
+      font-size: 15px;
+      color: var(--text);
+      line-height: 1.7;
+      margin-bottom: 20px;
+      font-style: italic;
+    }
+
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .testimonial-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .testimonial-name {
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .testimonial-role {
+      font-size: 12px;
+      color: var(--text2);
+    }
+
+    /* ============================================================
+       FAQ
+    ============================================================ */
+
+    .faq {
+      padding: 100px 24px;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .faq-item {
+      border-bottom: 1px solid var(--border);
+      padding: 24px 0;
+    }
+
+    .faq-question {
+      font-size: 17px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: var(--text);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .faq-question i {
+      color: var(--primary);
+      font-size: 14px;
+    }
+
+    .faq-answer {
+      font-size: 15px;
+      color: var(--text2);
+      line-height: 1.7;
+    }
+
+    /* ============================================================
+       FINAL CTA
+    ============================================================ */
+
+    .final-cta {
+      padding: 120px 24px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .final-cta::before {
+      content: '';
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(108,99,255,0.12) 0%, transparent 70%);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+
+    .final-cta h2 {
+      font-size: clamp(32px, 5vw, 56px);
+      font-weight: 900;
+      margin-bottom: 16px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .final-cta p {
+      color: var(--text2);
+      font-size: 17px;
+      margin-bottom: 40px;
+    }
+
+    /* ============================================================
+       FOOTER
+    ============================================================ */
+
+    footer {
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      padding: 40px 24px;
+      text-align: center;
+      color: var(--text2);
+      font-size: 14px;
+    }
+
+    footer .footer-logo {
+      color: var(--primary);
+      font-weight: 800;
+      font-size: 18px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    footer p {
+      margin-top: 8px;
+    }
+
+    /* ============================================================
+       RESPONSIVE
+    ============================================================ */
+
+    @media (max-width: 768px) {
+      nav { padding: 16px 20px; }
+      .nav-links { display: none; }
+      .features-grid { grid-template-columns: 1fr; }
+      .testimonials-grid { grid-template-columns: 1fr; }
+      .mockup-stats { grid-template-columns: repeat(2, 1fr); }
+      .mockup-sidebar { display: none; }
+      .mockup-cards { grid-template-columns: 1fr; }
+      .hero-buttons { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav>
+    <div class="nav-logo">
+      <i class="fa-solid fa-bolt"></i>
+      FocusForge
+    </div>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
+      <a href="https://focusforge-mu.vercel.app" target="_blank">Live Demo</a>
+      <a href="https://gumroad.com/giancarl" target="_blank" class="nav-cta">
+        Get It — $9.99
+      </a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-badge">
+      <i class="fa-solid fa-bolt"></i>
+      One-time payment · No subscription ever
+    </div>
+
+    <h1>
+      Stop Procrastinating.<br/>
+      Start <span>Getting Things Done.</span>
+    </h1>
+
+    <p>
+      FocusForge is a beautiful all-in-one productivity dashboard
+      with task management, habit tracking, and a Pomodoro timer —
+      all in one clean app. Pay once, use forever.
+    </p>
+
+    <div class="hero-buttons">
+      <a href="https://gumroad.com/giancarl" target="_blank" class="btn-hero">
+        <i class="fa-solid fa-bolt"></i>
+        Get FocusForge — $9.99
+      </a>
+      <a href="https://focusforge-mu.vercel.app" target="_blank" class="btn-demo">
+        <i class="fa-solid fa-play"></i>
+        Try Live Demo
+      </a>
+    </div>
+
+    <p class="hero-price-note">
+      <strong>✓ Pay once, use forever.</strong>
+      No monthly fees. No hidden costs.
+    </p>
+
+    <!-- APP MOCKUP -->
+    <div class="hero-mockup">
+      <div class="mockup-bar">
+        <div class="mockup-dot red"></div>
+        <div class="mockup-dot yellow"></div>
+        <div class="mockup-dot green"></div>
+        <div class="mockup-url">focusforge-mu.vercel.app</div>
+      </div>
+      <div class="mockup-content">
+        <div class="mockup-sidebar">
+          <div class="mockup-logo">
+            <i class="fa-solid fa-bolt"></i> FocusForge
+          </div>
+          <div class="mockup-nav-item active">
+            <i class="fa-solid fa-house"></i> Dashboard
+          </div>
+          <div class="mockup-nav-item">
+            <i class="fa-solid fa-list-check"></i> Tasks
+          </div>
+          <div class="mockup-nav-item">
+            <i class="fa-solid fa-fire"></i> Habits
+          </div>
+          <div class="mockup-nav-item">
+            <i class="fa-solid fa-clock"></i> Focus Timer
+          </div>
+        </div>
+        <div class="mockup-main">
+          <div class="mockup-title">Good morning! 👋</div>
+          <div class="mockup-subtitle">Here's your productivity overview</div>
+          <div class="mockup-stats">
+            <div class="mockup-stat">
+              <div class="mockup-stat-icon blue">
+                <i class="fa-solid fa-list-check"></i>
+              </div>
+              <div>
+                <div class="mockup-stat-num">5</div>
+                <div class="mockup-stat-label">Tasks Done</div>
+              </div>
+            </div>
+            <div class="mockup-stat">
+              <div class="mockup-stat-icon orange">
+                <i class="fa-solid fa-fire"></i>
+              </div>
+              <div>
+                <div class="mockup-stat-num">3</div>
+                <div class="mockup-stat-label">Habits Done</div>
+              </div>
+            </div>
+            <div class="mockup-stat">
+              <div class="mockup-stat-icon green">
+                <i class="fa-solid fa-clock"></i>
+              </div>
+              <div>
+                <div class="mockup-stat-num">75m</div>
+                <div class="mockup-stat-label">Focus Time</div>
+              </div>
+            </div>
+            <div class="mockup-stat">
+              <div class="mockup-stat-icon purple">
+                <i class="fa-solid fa-trophy"></i>
+              </div>
+              <div>
+                <div class="mockup-stat-num">7</div>
+                <div class="mockup-stat-label">Day Streak</div>
+              </div>
+            </div>
+          </div>
+          <div class="mockup-cards">
+            <div class="mockup-card">
+              <div class="mockup-card-title">📋 Today's Tasks</div>
+              <div class="mockup-task">
+                <div class="mockup-check done"></div> Buy groceries
+              </div>
+              <div class="mockup-task">
+                <div class="mockup-check done"></div> Morning workout
+              </div>
+              <div class="mockup-task">
+                <div class="mockup-check"></div> Read 30 pages
+              </div>
+            </div>
+            <div class="mockup-card">
+              <div class="mockup-card-title">🔥 Today's Habits</div>
+              <div class="mockup-task">
+                <div class="mockup-check done"></div> 💧 Drink water
+              </div>
+              <div class="mockup-task">
+                <div class="mockup-check done"></div> 📚 Read daily
+              </div>
+              <div class="mockup-task">
+                <div class="mockup-check"></div> 🧘 Meditate
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOCIAL PROOF -->
+  <div class="social-proof">
+    <p>Loved by productive people everywhere</p>
+    <div class="stars">★★★★★</div>
+  </div>
+
+  <!-- FEATURES -->
+  <section class="features" id="features">
+    <p class="section-label">Features</p>
+    <h2 class="section-title">Everything you need to stay focused</h2>
+    <p class="section-sub">
+      No bloat. No complexity. Just the tools that actually move the needle.
+    </p>
+
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon purple">
+          <i class="fa-solid fa-list-check"></i>
+        </div>
+        <h3>Smart Task Manager</h3>
+        <p>Organize your to-dos with high, medium, and low priority levels. Filter by status and never lose track of what matters most.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon orange">
+          <i class="fa-solid fa-fire"></i>
+        </div>
+        <h3>Habit Tracker</h3>
+        <p>Build powerful daily habits with streak tracking. Watch your consistency grow day by day and hit your personal best.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon green">
+          <i class="fa-solid fa-clock"></i>
+        </div>
+        <h3>Pomodoro Timer</h3>
+        <p>Stay in deep work mode with the proven Pomodoro technique. Customize session lengths and track your daily focus time.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon blue">
+          <i class="fa-solid fa-chart-line"></i>
+        </div>
+        <h3>Live Dashboard</h3>
+        <p>See your entire productivity at a glance. Tasks done, habits completed, focus minutes, and your current streak — all in one view.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon yellow">
+          <i class="fa-solid fa-floppy-disk"></i>
+        </div>
+        <h3>Auto Saves Everything</h3>
+        <p>Your data is saved automatically in your browser. Close the tab, come back tomorrow — everything is exactly where you left it.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon red">
+          <i class="fa-solid fa-mobile"></i>
+        </div>
+        <h3>Works on Any Device</h3>
+        <p>Fully responsive design works beautifully on desktop, tablet, and mobile. Your productivity dashboard goes everywhere you do.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="how-it-works">
+    <div style="max-width:1100px;margin:0 auto;">
+      <p class="section-label">How It Works</p>
+      <h2 class="section-title">Up and running in 60 seconds</h2>
+      <p class="section-sub">No installs. No accounts. No setup headaches.</p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-number">1</div>
+        <div class="step-content">
+          <h3>Purchase once on Gumroad</h3>
+          <p>Pay $9.99 one time. No subscriptions, no recurring charges. You own it forever the moment you buy.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-number">2</div>
+        <div class="step-content">
+          <h3>Get instant access</h3>
+          <p>You'll receive an email with your personal access link immediately after purchase. Click it and you're in.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-number">3</div>
+        <div class="step-content">
+          <h3>Start being productive</h3>
+          <p>Add your tasks, set up your habits, start a focus session. Your data saves automatically — come back anytime.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section class="pricing" id="pricing">
+    <p class="section-label">Pricing</p>
+    <h2 class="section-title">Simple, honest pricing</h2>
+    <p class="section-sub">One price. Everything included. Forever.</p>
+
+    <div class="pricing-card">
+      <div class="pricing-badge">🔥 Most Popular</div>
+      <div class="pricing-name">FocusForge — Lifetime Access</div>
+      <div class="pricing-price">
+        <span>$</span>9.99
+      </div>
+      <div class="pricing-note">✓ One-time payment · No subscription ever</div>
+
+      <ul class="pricing-features">
+        <li><i class="fa-solid fa-check"></i> Full Task Manager with priorities</li>
+        <li><i class="fa-solid fa-check"></i> Habit Tracker with streak system</li>
+        <li><i class="fa-solid fa-check"></i> Pomodoro Focus Timer</li>
+        <li><i class="fa-solid fa-check"></i> Live productivity dashboard</li>
+        <li><i class="fa-solid fa-check"></i> Works on all devices</li>
+        <li><i class="fa-solid fa-check"></i> Auto-saves your data</li>
+        <li><i class="fa-solid fa-check"></i> All future updates included</li>
+        <li><i class="fa-solid fa-check"></i> Lifetime access — pay once</li>
+      </ul>
+
+      <a href="https://gumroad.com/giancarl" target="_blank" class="btn-buy">
+        <i class="fa-solid fa-bolt"></i>
+        Get FocusForge Now — $9.99
+      </a>
+
+      <div class="pricing-guarantee">
+        <i class="fa-solid fa-shield-halved"></i>
+        30-day money back guarantee. No questions asked.
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="testimonials">
+    <p class="section-label">Testimonials</p>
+    <h2 class="section-title" style="text-align:center;margin-bottom:16px;">
+      People love FocusForge
+    </h2>
+    <p class="section-sub">
+      Join hundreds of productive people who use FocusForge daily.
+    </p>
+
+    <div class="testimonials-grid">
+      <div class="testimonial-card">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text">
+          "I've tried Notion, Todoist, and a dozen other apps.
+          FocusForge is the only one I actually stick with.
+          It's simple but has everything I need."
+        </p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar" style="background:rgba(108,99,255,0.2)">👨</div>
+          <div>
+            <div class="testimonial-name">Marcus R.</div>
+            <div class="testimonial-role">Software Developer</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text">
+          "The habit tracker with streaks is addictive in the best way.
+          I haven't missed a single day of reading in 3 weeks
+          because I don't want to break my streak!"
+        </p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar" style="background:rgba(34,197,94,0.2)">👩</div>
+          <div>
+            <div class="testimonial-name">Sarah K.</div>
+            <div class="testimonial-role">Freelance Designer</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text">
+          "Best $9.99 I've spent this year. The Pomodoro timer
+          alone has doubled my output. Clean design,
+          no distractions — exactly what I needed."
+        </p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar" style="background:rgba(249,115,22,0.2)">🧑</div>
+          <div>
+            <div class="testimonial-name">James T.</div>
+            <div class="testimonial-role">Student</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq" id="faq">
+    <p class="section-label">FAQ</p>
+    <h2 class="section-title" style="text-align:center;margin-bottom:48px;">
+      Frequently asked questions
+    </h2>
+
+    <div class="faq-item">
+      <div class="faq-question">
+        Do I really pay only once? <i class="fa-solid fa-plus"></i>
+      </div>
+      <div class="faq-answer">
+        Yes! $9.99 one time and FocusForge is yours forever.
+        No monthly fees, no annual renewals, no surprises.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">
+        Do I need to create an account? <i class="fa-solid fa-plus"></i>
+      </div>
+      <div class="faq-answer">
+        No account needed! FocusForge saves your data directly
+        in your browser. Just open it and start working.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">
+        Will my data be saved if I close the browser? <i class="fa-solid fa-plus"></i>
+      </div>
+      <div class="faq-answer">
+        Yes! Everything saves automatically using your browser's
+        local storage. Your tasks, habits, and sessions will
+        all be there when you come back.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">
+        Does it work on mobile? <i class="fa-solid fa-plus"></i>
+      </div>
+      <div class="faq-answer">
+        Absolutely! FocusForge is fully responsive and works
+        beautifully on phones, tablets, and desktops.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">
+        What if I want a refund? <i class="fa-solid fa-plus"></i>
+      </div>
+      <div class="faq-answer">
+        We offer a full 30-day money back guarantee.
+        If you're not happy for any reason, just email us
+        and we'll refund you immediately. No questions asked.
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="final-cta">
+    <h2>Ready to actually get things done?</h2>
+    <p>Join hundreds of people who use FocusForge to crush their goals every day.</p>
+    <a href="https://gumroad.com/giancarl" target="_blank" class="btn-hero"
+      style="display:inline-flex;margin:0 auto;">
+      <i class="fa-solid fa-bolt"></i>
+      Get FocusForge — $9.99
+    </a>
+    <p style="margin-top:20px;font-size:14px;color:var(--text2);">
+      ✓ One-time payment &nbsp;·&nbsp;
+      ✓ 30-day guarantee &nbsp;·&nbsp;
+      ✓ Instant access
+    </p>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">
+      <i class="fa-solid fa-bolt"></i>
+      FocusForge
+    </div>
+    <p>The productivity dashboard that actually works.</p>
+    <p style="margin-top:16px;">© 2026 FocusForge · All rights reserved</p>
+  </footer>
+
+</body>
+</html>
